@@ -47,10 +47,7 @@ def run_client():
 
     client_random = get_random_bytes(32)
     session_id = SESSION_ID_EMPTY
-    CIPHER_SUITES_CLIENT = [
-            CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA256,
-            CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA
-    ]
+    # Usar cipher suites compatíveis com TLS 1.0
     cipher_suites = struct.pack('!H', len(CIPHER_SUITES_CLIENT) * 2) + b''.join(CIPHER_SUITES_CLIENT)
     compression_methods = struct.pack('!B', 1) + COMPRESSION_NULL
 
@@ -79,7 +76,7 @@ def run_client():
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         )
     )
-    exec
+
     _, _ = read_tls_record(sock)
 
     pre_master_secret = TLS_VERSION_1_0 + get_random_bytes(46)

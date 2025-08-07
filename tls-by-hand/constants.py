@@ -4,7 +4,6 @@ TLS_VERSION_1_0 = b'\x03\x01'
 HANDSHAKE = 22
 CHANGE_CIPHER_SPEC = 20
 APPLICATION_DATA = 23
-CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA = b'\x00\x2f'
 COMPRESSION_NULL = b'\x00'
 
 # TLS Handshake Message Types
@@ -17,12 +16,13 @@ CIPHER_TLS_DHE_RSA_WITH_AES_128_CBC_SHA = b'\x00\x33'
 # Session-ID
 SESSION_ID_EMPTY      = b'\x00'            # length-0 = sem resumption
 # Cipher-suites (RFC 5246 Appendix A)
-CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA256 = b'\x00\x3C'
+CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA = b'\x00\x2f'  # TLS 1.0/1.1
+CIPHER_TLS_RSA_WITH_3DES_EDE_CBC_SHA = b'\x00\x0A'  # TLS 1.0/1.1
 # Compression methods (RFC 2246 §6.2.2)
 CCS_BYTE                          = b'\x01'   # 0x01 = ChangeCipherSpec fragment
 # Compression methods (RFC 2246 §6.2.2)
 COMPRESSION_METHODS  = [COMPRESSION_NULL]
 CIPHER_SUITES_CLIENT = [
-    CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA256,  # preferencial
-    CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA      # fallback
+    CIPHER_TLS_RSA_WITH_AES_128_CBC_SHA,      # preferencial
+    CIPHER_TLS_RSA_WITH_3DES_EDE_CBC_SHA      # fallback
 ]
