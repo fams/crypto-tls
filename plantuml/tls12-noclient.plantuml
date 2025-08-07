@@ -1,0 +1,16 @@
+@startuml
+!theme sketchy-outline
+skinparam handwritten true
+title TLS 1.2 Handshake (sem autenticação do cliente)
+
+
+Cliente -> Servidor: ClientHello\n\t(version, random, session_id, cipher_suites, extensions)
+Servidor -> Cliente: ServerHello\n\t(version, random, session_id, cipher_suite, extensions)
+Servidor -> Cliente: Certificate\n\t(certificado X.509 do servidor)
+Servidor -> Cliente: ServerHelloDone
+Cliente -> Servidor: ClientKeyExchange\n\t( Parâmetros públicos DH/ECDHE, ou premaster_secret cifrado com RSA)
+Cliente -> Servidor: ChangeCipherSpec
+Cliente -> Servidor: Finished\n\t(MAC/transcript do handshake)
+Servidor -> Cliente: ChangeCipherSpec
+Servidor -> Cliente: Finished\n\t(MAC/transcript do handshake)
+@enduml

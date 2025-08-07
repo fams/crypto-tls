@@ -1,0 +1,12 @@
+@startuml
+!theme sketchy-outline
+title TLS 1.3 Handshake (sem autenticação do cliente)
+
+Cliente -> Servidor: 1. ClientHello\n\t(supported_versions, random, cipher_suites, key_share, extensions)
+Servidor -> Cliente: 2. ServerHello\n\t(selected_version, random, cipher_suite, key_share, extensions)
+Servidor -> Cliente: 3. EncryptedExtensions\n\t(extensões adicionais negociadas)
+Servidor -> Cliente: 4. Certificate\n\t(certificado X.509 do servidor)
+Servidor -> Cliente: 5. CertificateVerify\n\t(assinatura do transcript do handshake pelo servidor)
+Servidor -> Cliente: 6. Finished\n\t(HMAC/transcript do handshake)
+Cliente -> Servidor: 7. Finished\n\t(HMAC/transcript do handshake)
+@enduml

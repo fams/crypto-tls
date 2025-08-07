@@ -1,0 +1,19 @@
+@startuml
+!theme sketchy-outline
+!option handwritten true
+title TLS 1.2 Handshake com Autenticação do Cliente
+
+Cliente -> Servidor: 1. ClientHello\n\t(version, random, session_id, cipher_suites, extensions)
+Servidor -> Cliente: 2. ServerHello\n\t(version, random, session_id, cipher_suite, extensions)
+Servidor -> Cliente: 3. Certificate\n\t(certificado X.509 do servidor)
+Servidor -> Cliente: 4. ServerKeyExchange\n\t(parâmetros DH/ECDHE)
+Servidor -> Cliente: 5. CertificateRequest\n\t(tipos aceitos, CA aceitas)
+Servidor -> Cliente: 6. ServerHelloDone
+Cliente -> Servidor: 7. Certificate\n\t(certificado X.509 do cliente)
+Cliente -> Servidor: 8. ClientKeyExchange\n\t(público DH/ECDHE, ou premaster_secret cifrado com RSA)
+Cliente -> Servidor: 9. CertificateVerify\n\t(assinatura do transcript do handshake pelo cliente)
+Cliente -> Servidor: 10. ChangeCipherSpec
+Cliente -> Servidor: 11. Finished\n\t(MAC/transcript do handshake)
+Servidor -> Cliente: 12. ChangeCipherSpec
+Servidor -> Cliente: 13. Finished\n\t(MAC/transcript do handshake)
+@enduml

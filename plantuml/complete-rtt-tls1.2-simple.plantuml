@@ -1,0 +1,49 @@
+@startuml
+!theme sketchy-outline
+title TLS 1.2 Handshake Simplificado - TCP + TLS (50ms por perna)
+
+participant "Cliente" as C
+participant "Servidor" as S
+
+note over C, S : 50ms por perna (ida + volta = 100ms RTT)
+
+== TCP Three-way Handshake ==
+C -> S : SYN
+note left : Saída: 0ms
+note right : Chegada: 50ms
+
+S -> C : SYN-ACK
+note right : Saída: 50ms
+note left : Chegada: 100ms
+
+C -> S : ACK
+note left : Saída: 100ms
+note right : Chegada: 150ms
+
+== TLS 1.2 Handshake ==
+C -> S : ClientHello
+note left : Saída: 100ms
+note right : Chegada: 150ms
+
+S -> C : ServerHello + Certificate + ServerKeyExchange + CertificateRequest + ServerHelloDone
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+C -> S : ClientCertificate + ClientKeyExchange + CertificateVerify + ChangeCipherSpec + Finished
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+S -> C : ChangeCipherSpec + Finished
+note right : Saída: 250ms
+note left : Chegada: 300ms
+
+== Dados de Aplicação ==
+C -> S : GET / HTTP/1.1
+note left : Saída: 300ms
+note right : Chegada: 350ms
+
+S -> C : HTTP/1.1 200 OK + HTML
+note right : Saída: 350ms
+note left : Chegada: 400ms
+
+@enduml 

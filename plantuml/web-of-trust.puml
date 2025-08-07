@@ -1,0 +1,26 @@
+@startuml
+title Web of Trust
+!theme sketchy-outline
+skinparam handwritten true
+Actor Alice as A
+Actor Bob as B
+Actor Carol as C
+Actor Dave as D
+
+Actor Mallory as M
+Actor Trent as T
+Actor Peggy as P
+(A) <--> (B): Confia
+(A) <--> (C): Confia
+(D) <--> (A): Confia
+(T) <--> (M): Confia
+(M) <--> (P): Confia
+(C) <--> (D): Confia
+(A) <--> (M): Confia
+(M) <--> (D): Confia
+(A) <-[#blue,dashed]-> (T): Indiretamente Confia
+(A) -[#blue,dashed]-> (P): Indiretamente Confia
+(B) -[#blue,dashed]-> (D): Indiretamente Confia
+(B) -[#blue,dashed]-> (C): Indiretamente Confia
+
+@enduml

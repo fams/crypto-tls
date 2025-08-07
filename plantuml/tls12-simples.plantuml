@@ -1,0 +1,18 @@
+@startuml
+!theme sketchy-outline
+!option handwritten true
+title TLS 1.2 Handshake Simplificado
+
+
+  Cliente -> Servidor: 1. ClientHello
+  Servidor -> Cliente: 2. ServerHello
+  Servidor -> Cliente: 3. Certificate
+  Servidor -> Cliente: 4. ServerKeyExchange
+  Servidor -> Cliente: 5. ServerHelloDone
+  Cliente -> Servidor: 6. ClientKeyExchange
+  Cliente -> Servidor: 7. ChangeCipherSpec
+  Cliente -> Servidor: 8. Finished
+  Servidor -> Cliente: 9. ChangeCipherSpec
+  Servidor -> Cliente: 10. Finished
+
+@enduml

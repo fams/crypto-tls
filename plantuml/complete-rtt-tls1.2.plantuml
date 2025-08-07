@@ -1,0 +1,90 @@
+@startuml
+!theme sketchy-outline
+title TLS 1.2 Handshake Completo - TCP + TLS (50ms por perna)
+
+participant "Cliente" as C
+participant "Servidor" as S
+
+note over C, S : 50ms por perna (ida + volta = 100ms RTT)
+
+== TCP Three-way Handshake ==
+== Round-trip 1 ==
+C -> S : SYN (seq=x)
+note left : Saída: 0ms
+note right : Chegada: 50ms
+
+S -> C : SYN-ACK (seq=y, ack=x+1)
+note right : Saída: 50ms
+note left : Chegada: 100ms
+
+C -> S : ACK (ack=y+1)
+note left : Saída: 100ms
+note right : Chegada: 150ms
+
+== TLS 1.2 Handshake ==
+
+== Round-trip 2 ==
+C -> S : ClientHello\n(version, random, session_id, cipher_suites, extensions)
+note left : Saída: 100ms
+note right : Chegada: 150ms
+
+S -> C : ServerHello\n(version, random, session_id, cipher_suite, extensions)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : Certificate\n(certificado X.509 do servidor)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : ServerKeyExchange\n(parâmetros DH/ECDHE)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : CertificateRequest\n(tipos aceitos, CA aceitas)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : ServerHelloDone
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+== Round-trip 3 ==
+C -> S : Certificate\n(certificado X.509 do cliente)
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+C -> S : ClientKeyExchange\n(público DH/ECDHE, ou premaster_secret cifrado com RSA)
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+C -> S : CertificateVerify\n(assinatura do transcript do handshake pelo cliente)
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+C -> S : ChangeCipherSpec
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+C -> S : Finished\n(MAC/transcript do handshake)
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+S -> C : ChangeCipherSpec
+note right : Saída: 250ms
+note left : Chegada: 300ms
+
+S -> C : Finished\n(MAC/transcript do handshake)
+note right : Saída: 250ms
+note left : Chegada: 300ms
+
+== Dados de Aplicação ==
+== Round-trip 4 ==
+C -> S : GET / HTTP/1.1\nHost: exemplo.com\nConnection: keep-alive
+note left : Saída: 300ms
+note right : Chegada: 350ms
+
+S -> C : HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 1234\n\n<html>...
+note right : Saída: 350ms
+note left : Chegada: 400ms
+
+@enduml

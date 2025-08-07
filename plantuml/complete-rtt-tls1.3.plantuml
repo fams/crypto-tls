@@ -1,0 +1,67 @@
+@startuml
+!theme sketchy-outline
+title TLS 1.3 Handshake Completo - TCP + TLS (50ms por perna)
+
+participant "Cliente" as C
+participant "Servidor" as S
+
+note over C, S : 50ms por perna (ida + volta = 100ms RTT)
+
+== TCP Three-way Handshake ==
+== Round-trip 1 ==
+C -> S : SYN (seq=x)
+note left : Saída: 0ms
+note right : Chegada: 50ms
+
+S -> C : SYN-ACK (seq=y, ack=x+1)
+note right : Saída: 50ms
+note left : Chegada: 100ms
+
+C -> S : ACK (ack=y+1)
+note left : Saída: 100ms
+note right : Chegada: 150ms
+
+== TLS 1.3 Handshake ==
+
+== Round-trip 2 ==
+C -> S : ClientHello\n(supported_versions, random, cipher_suites, key_share, extensions)
+note left : Saída: 100ms
+note right : Chegada: 150ms
+
+S -> C : ServerHello\n(selected_version, random, cipher_suite, key_share, extensions)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : EncryptedExtensions\n(extensões adicionais negociadas)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : Certificate\n(certificado X.509 do servidor)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : CertificateVerify\n(assinatura do transcript do handshake pelo servidor)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+S -> C : Finished\n(HMAC/transcript do handshake)
+note right : Saída: 150ms
+note left : Chegada: 200ms
+
+== Round-trip 3 ==
+C -> S : Finished\n(HMAC/transcript do handshake)
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+== Dados de Aplicação ==
+== Round-trip 4 ==
+C -> S : GET / HTTP/1.1\nHost: exemplo.com\nConnection: keep-alive
+note left : Saída: 200ms
+note right : Chegada: 250ms
+
+S -> C : HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 1234\n\n<html>...
+note right : Saída: 250ms
+note left : Chegada: 300ms
+
+
+@enduml 

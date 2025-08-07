@@ -1,0 +1,25 @@
+@startuml
+!theme sketchy-outline
+skinparam handwritten true
+' title PKI Trust of Chain
+
+' (CA Raiz Corporate A) as RootCA_A
+' (CA Intermediária A, Corporate A) as IM_A_1
+' (CA Intermediária B, Corporate A) as IM_A_2
+(CA Raiz Corporate B) as RootCA_B
+(CA Intermediária A, Corporate B) as IM_B_1
+(CA Intermediária B, Corporate B) as IM_B_2
+
+' (Servidor) as Server
+' (Cliente) as Client
+' actor Alice as A
+' actor Bob as B
+' RootCA_A -> IM_A_1: Assina Certificado\n\t(CA Intermediária A)
+' IM_A_1 -> IM_A_2: Assina Certificado\n\t(CA Intermediária B)
+RootCA_B -> IM_B_1: Assina Certificado\n\t(CA Intermediária A)
+IM_B_1 -> IM_B_2: Assina Certificado\n\t(CA Intermediária B)
+
+' A -> RootCA: Confia em
+' ' A -> B: Envia Certificado\n\t(Servidor)
+' B -> RootCA: Confia em 
+@enduml

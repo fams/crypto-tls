@@ -1,0 +1,12 @@
+@startuml
+!theme sketchy-outline
+skinparam handwritten true
+title Trust of Chain
+Actor (Alice) as A
+Actor (Bob) as B
+Actor (Carol) as C
+A --> B: Assina Chave + Dados de
+
+C --> A: Confia em
+
+@enduml
